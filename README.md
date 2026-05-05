@@ -1,17 +1,16 @@
 # lab III
 
-Laboratory work 3.
+## Лабораторная работа №3
 
-Topic: project build automation using CMake.
+Тема: автоматизация сборки проекта с помощью CMake.
 
-## Task
+## Задание
 
-The project from `lab02` was used as a base.  
-CMake configuration was added for building the static library `print` and example applications.
+В качестве основы был использован проект из лабораторной работы №2.
 
-Homework part was not completed because it is not required.
+В проект был добавлен файл `CMakeLists.txt`, с помощью которого выполняется сборка статической библиотеки `print` и двух примеров программ.
 
-## Project structure
+## Структура проекта
 
 ```text
 .
@@ -26,96 +25,80 @@ Homework part was not completed because it is not required.
     └── print.cpp
 ```
 
-## Files
+## Описание файлов
 
-### `include/print.hpp`
+`include/print.hpp` — заголовочный файл с объявлениями функций.
 
-Header file with function declarations.
+`sources/print.cpp` — файл с реализацией функций.
 
-### `sources/print.cpp`
+`examples/example1.cpp` — пример программы, которая выводит текст в стандартный поток вывода.
 
-Source file with function definitions.
+`examples/example2.cpp` — пример программы, которая записывает текст в файл.
 
-### `examples/example1.cpp`
+`CMakeLists.txt` — файл конфигурации сборки CMake.
 
-Example that prints text to standard output.
+## Сборка проекта
 
-### `examples/example2.cpp`
-
-Example that prints text to a file.
-
-### `CMakeLists.txt`
-
-CMake build configuration file.
-
-It builds:
-
-- static library `print`;
-- executable `example1`;
-- executable `example2`.
-
-## Build
-
-To configure the project:
+Для генерации файлов сборки используется команда:
 
 ```bash
 cmake -H. -B_build
 ```
 
-To build the project:
+Для сборки проекта используется команда:
 
 ```bash
 cmake --build _build
 ```
 
-## Run examples
+## Запуск примеров
 
-Run first example:
+Запуск первого примера:
 
 ```bash
 _build/example1 && echo
 ```
 
-Output:
+Результат работы:
 
 ```text
 hello
 ```
 
-Run second example:
+Запуск второго примера:
 
 ```bash
 _build/example2
 cat log.txt && echo
 ```
 
-Output:
+Результат работы:
 
 ```text
 hello
 ```
 
-## Install
+## Установка
 
-Configure project with install directory:
+Для указания директории установки используется команда:
 
 ```bash
 cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
 ```
 
-Build and install:
+Для установки проекта используется команда:
 
 ```bash
 cmake --build _build --target install
 ```
 
-Check install directory:
+Проверка директории установки:
 
 ```bash
 tree _install
 ```
 
-Expected structure:
+Ожидаемая структура:
 
 ```text
 _install
@@ -128,9 +111,8 @@ _install
     └── libprint.a
 ```
 
-## Result
+## Вывод
 
-The project was successfully configured and built using CMake.
+В ходе выполнения лабораторной работы был настроен процесс сборки проекта с помощью CMake.
 
-The static library `print` was created.  
-The example applications `example1` and `example2` were also built and tested.
+Была собрана статическая библиотека `print`, а также исполняемые файлы `example1` и `example2`.
