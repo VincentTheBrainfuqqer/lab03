@@ -19,7 +19,7 @@
 
 ```bash
 export GITHUB_USERNAME=VincentTheBrainfuqqer
-export GITHUB_EMAIL=<email>
+export GITHUB_EMAIL=<my_email>
 ```
 
 Были настроены имя пользователя и email для Git:
