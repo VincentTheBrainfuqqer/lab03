@@ -1,195 +1,136 @@
-# Laboratory work II
+# lab03
 
-## Цель работы
+Laboratory work 3.
 
-Изучить основы работы с системой контроля версий Git и сервисом GitHub.
+Topic: project build automation using CMake.
 
-## Задание
+## Task
 
-1. Создать публичный репозиторий `lab02` на GitHub.
-2. Добавить лицензию MIT.
-3. Настроить локальный репозиторий.
-4. Создать структуру проекта.
-5. Добавить исходные файлы.
-6. Зафиксировать изменения с помощью Git и отправить их на GitHub.
+The project from `lab02` was used as a base.  
+CMake configuration was added for building the static library `print` and example applications.
 
-## Ход работы
+Homework part was not completed because it is not required.
 
-Сначала были заданы данные пользователя GitHub:
-
-```bash
-export GITHUB_USERNAME=VincentTheBrainfuqqer
-export GITHUB_EMAIL=<my_email>
-```
-
-Были настроены имя пользователя и email для Git:
-
-```bash
-git config --global user.name ${GITHUB_USERNAME}
-git config --global user.email ${GITHUB_EMAIL}
-```
-
-После этого был создан локальный каталог лабораторной работы:
-
-```bash
-mkdir -p ~/VincentTheBrainfuqqer/workspace/projects/lab02
-cd ~/VincentTheBrainfuqqer/workspace/projects/lab02
-```
-
-Был инициализирован локальный Git-репозиторий:
-
-```bash
-git init
-```
-
-Затем был добавлен удаленный репозиторий:
-
-```bash
-git remote add origin https://github.com/VincentTheBrainfuqqer/lab02.git
-```
-
-Так как в репозитории используется ветка `main`, дальнейшая отправка выполнялась в нее:
-
-```bash
-git branch -M main
-git pull origin main
-```
-
-В проект была добавлена структура каталогов:
-
-```bash
-mkdir examples
-mkdir include
-mkdir sources
-```
-
-Итоговая структура проекта:
+## Project structure
 
 ```text
-lab02/
-├── .gitignore
-├── LICENSE
+.
+├── CMakeLists.txt
 ├── README.md
-├── examples/
+├── examples
 │   ├── example1.cpp
 │   └── example2.cpp
-├── include/
+├── include
 │   └── print.hpp
-└── sources/
+└── sources
     └── print.cpp
 ```
 
-Файл `.gitignore` содержит исключения для временных файлов и каталогов сборки:
+## Files
 
-```gitignore
-*build*/
-*install*/
-*.swp
-.idea/
-```
+### `include/print.hpp`
 
-В файл `include/print.hpp` были добавлены объявления функций:
+Header file with function declarations.
 
-```cpp
-#include <fstream>
-#include <iostream>
-#include <string>
+### `sources/print.cpp`
 
-void print(const std::string& text, std::ofstream& out);
-void print(const std::string& text, std::ostream& out = std::cout);
-```
+Source file with function definitions.
 
-В файл `sources/print.cpp` была добавлена реализация функций:
+### `examples/example1.cpp`
 
-```cpp
-#include <print.hpp>
+Example that prints text to standard output.
 
-void print(const std::string& text, std::ostream& out)
-{
-  out << text;
-}
+### `examples/example2.cpp`
 
-void print(const std::string& text, std::ofstream& out)
-{
-  out << text;
-}
-```
+Example that prints text to a file.
 
-В файл `examples/example1.cpp` был добавлен пример вывода строки в стандартный поток:
+### `CMakeLists.txt`
 
-```cpp
-#include <print.hpp>
+CMake build configuration file.
 
-int main(int argc, char** argv)
-{
-  print("hello");
-}
-```
+It builds:
 
-В файл `examples/example2.cpp` был добавлен пример вывода строки в файл:
+- static library `print`;
+- executable `example1`;
+- executable `example2`.
 
-```cpp
-#include <print.hpp>
+## Build
 
-#include <fstream>
-
-int main(int argc, char** argv)
-{
-  std::ofstream file("log.txt");
-  print(std::string("hello"), file);
-}
-```
-
-После добавления файлов было проверено состояние репозитория:
+To configure the project:
 
 ```bash
-git status
+cmake -H. -B_build
 ```
 
-Затем все изменения были добавлены в индекс:
+To build the project:
 
 ```bash
-git add .
+cmake --build _build
 ```
 
-Был создан коммит:
+## Run examples
+
+Run first example:
 
 ```bash
-git commit -m "added sources"
+_build/example1 && echo
 ```
 
-После этого изменения были отправлены в удаленный репозиторий GitHub:
+Output:
+
+```text
+hello
+```
+
+Run second example:
 
 ```bash
-git push origin main
+_build/example2
+cat log.txt && echo
 ```
 
-## Результат
+Output:
 
-В результате выполнения лабораторной работы был создан публичный репозиторий `lab02` с лицензией MIT.
+```text
+hello
+```
 
-В репозиторий были добавлены:
+## Install
 
-- файл `README.md`;
-- файл `.gitignore`;
-- лицензия `LICENSE`;
-- каталог `include` с заголовочным файлом;
-- каталог `sources` с реализацией функций;
-- каталог `examples` с примерами использования.
-
-Работа с Git была выполнена через основные команды:
+Configure project with install directory:
 
 ```bash
-git init
-git remote add
-git status
-git add
-git commit
-git push
+cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
 ```
 
-## Вывод
+Build and install:
 
-В ходе лабораторной работы были изучены базовые возможности Git и GitHub.
+```bash
+cmake --build _build --target install
+```
 
-Был создан локальный репозиторий, подключен удаленный репозиторий, добавлены файлы проекта, выполнен коммит и отправка изменений на GitHub.
+Check install directory:
+
+```bash
+tree _install
+```
+
+Expected structure:
+
+```text
+_install
+├── bin
+│   ├── example1
+│   └── example2
+├── include
+│   └── print.hpp
+└── lib
+    └── libprint.a
+```
+
+## Result
+
+The project was successfully configured and built using CMake.
+
+The static library `print` was created.  
+The example applications `example1` and `example2` were also built and tested.
